@@ -7,11 +7,6 @@ namespace MicroservicesTest2.Utils.Logging
 {
     public class ActionConverter : PatternConverter
     {
-        public ActionConverter()
-        {
-            
-        }
-
         protected override void Convert(TextWriter writer, object state)
         {
 
