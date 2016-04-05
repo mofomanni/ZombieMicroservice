@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/Testing/ZombieDB/ZombieLoggings.sqlite"/><window><current_tab id="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="452"/><expanded_item id="0" parent="-1"/><expanded_item id="1" parent="-1"/><expanded_item id="2" parent="-1"/><expanded_item id="3" parent="-1"/></tab_structure><tab_browse><current_table name="Logs"/><default_encoding codec=""/><browsetable_info data="AAAAAQAAAAgATABvAGcAc6ah3fAAAAATAAAAAAAAAAAAAAAAAP////8="/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE `Logs` (
+	`LogId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`Date`	BLOB,
+	`Level`	TEXT,
+	`Logger`	TEXT,
+	`Message`	TEXT,
+	`Exception`	TEXT,
+	`CorrelationId`	TEXT,
+	`Uri`	TEXT,
+	`Class`	TEXT,
+	`MethodName`	TEXT,
+	`Duration`	INTEGER,
+	`ExceptionDetails`	TEXT,
+	`ZombieItSelf`	TEXT
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>
