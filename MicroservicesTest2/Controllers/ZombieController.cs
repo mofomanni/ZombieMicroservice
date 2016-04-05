@@ -44,7 +44,7 @@ namespace MicroservicesTest2.Controllers
         public HttpResponseMessage Add([FromBody] ZombieSighting zombie)
         {
 
-            GetCorrellationId(zombie);
+            
             _persistencyLayer.AddZombie(zombie);
             return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
@@ -75,7 +75,7 @@ namespace MicroservicesTest2.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     zombieSighting = await response.Content.ReadAsAsync<ZombieSighting>();
-                    GetCorrellationId(zombieSighting);
+                 
                     Console.WriteLine("{0}\t${1}\t{2}", zombieSighting.Name, zombieSighting.Latitude, zombieSighting.Longitude);
                 }
             }
@@ -83,13 +83,7 @@ namespace MicroservicesTest2.Controllers
             return zombieSighting;
         }
 
-        private void GetCorrellationId(ZombieSighting zombie)
-        {
-            if (zombie.CorrelationId.IsNullOrEmpty() && this.ControllerContext.Request.Properties.ContainsKey("BGT-CorrelationId"))
-            {
-                zombie.CorrelationId = this.ControllerContext.Request.Properties["BGT-CorrelationId"].ToString();
-            }
-        }
+      
         
         
     }

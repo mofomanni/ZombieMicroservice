@@ -7,10 +7,6 @@ namespace MicroservicesTest2.Models
 {
     public class ZombieSighting
     {
-        [JsonProperty(PropertyName = "BGT-CorrelationId")]
-        [NotMapped]
-        public string CorrelationId { get; set; }
-
         [JsonProperty(PropertyName = "ZombieId")]
         public Guid ZombieId { get; set; }
 
