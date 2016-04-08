@@ -24,6 +24,7 @@ namespace MicroservicesTest2
                     defaults: new { id = RouteParameter.Optional }
             );
 
+            // Add Logging-Handler to Web API Pipeline
             config.MessageHandlers.Add(new ApiCallLoggingHandler<ZombieController>(LogManager.GetLogger(typeof(ZombieController)),Level.Debug));
         }
     }

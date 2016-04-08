@@ -5,12 +5,6 @@ namespace MicroservicesTest2.Utils.Logging
 {
     public class ZombieLoggingInfo
     {
-        public ZombieLoggingInfo()
-        {
-        }
-
-        public string CorrelationId { get; set; }
-
         public string Uri { get; set; }
 
         public string Class { get; set; }

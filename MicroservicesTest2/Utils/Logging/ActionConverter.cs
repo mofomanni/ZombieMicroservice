@@ -9,22 +9,15 @@ namespace MicroservicesTest2.Utils.Logging
     {
         protected override void Convert(TextWriter writer, object state)
         {
-
-            if (state == null)
-            {
-                HandleDefault(writer);
-                return;
-            }
-
             var loggingEvent = state as LoggingEvent;
-            var zombieLoggingInfo = loggingEvent.MessageObject as ZombieLoggingInfo;
 
-            if (zombieLoggingInfo == null)
+            if (loggingEvent == null || !(loggingEvent.MessageObject is LoggingEvent))
             {
                 HandleDefault(writer);
                 return;
-                //writer.Write(SystemInfo.NullText);
             }
+
+            var zombieLoggingInfo = loggingEvent.MessageObject as ZombieLoggingInfo;
 
             switch (this.Option.ToLower())
             {
