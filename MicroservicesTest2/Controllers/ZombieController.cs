@@ -18,7 +18,6 @@ namespace MicroservicesTest2.Controllers
     {
         private readonly PersistencyLayer _persistencyLayer;
 
-
         public ZombieController(PersistencyLayer persistencyLayer)
         {
             _persistencyLayer = persistencyLayer;   
@@ -43,8 +42,6 @@ namespace MicroservicesTest2.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody] ZombieSighting zombie)
         {
-
-            
             _persistencyLayer.AddZombie(zombie);
             return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
@@ -82,15 +79,5 @@ namespace MicroservicesTest2.Controllers
 
             return zombieSighting;
         }
-
-      
-        
-        
-    }
-
-    
-
-    public interface IHumanPeristency
-    {
     }
 }

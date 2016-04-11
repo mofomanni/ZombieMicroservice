@@ -55,7 +55,16 @@ namespace MicroservicesTest2Client
                 }
 
 
-                response = await client.GetAsync("api/v7/get/Zombie_2");
+                // HTTP POST
+                var gizmo = new ZombieSighting { Name = "Gizmo_" + Guid.NewGuid(), Latitude = 100.0, Longitude = 200.5, ZombieId = Guid.NewGuid() };
+                response = await client.PostAsJsonAsync("api/v7/add", gizmo);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("response.IsSuccessStatusCode: " + response.IsSuccessStatusCode);
+                    Console.WriteLine("---------------------------------------------------");
+                }
+
+                response = await client.GetAsync("api/v7/get/" + gizmo.Name);
                 if (response.IsSuccessStatusCode)
                 {
                     ZombieSighting zombieSighting = await response.Content.ReadAsAsync<ZombieSighting>();
@@ -65,23 +74,7 @@ namespace MicroservicesTest2Client
                 }
 
 
-                // HTTP POST
-                var gizmo = new ZombieSighting { Name = "Gizmo_"+Guid.NewGuid(), Latitude = 100.0, Longitude = 200.5, ZombieId = Guid.NewGuid()};
-                response = await client.PostAsJsonAsync("api/v7/add", gizmo);
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("response.IsSuccessStatusCode: " + response.IsSuccessStatusCode);
-                    Console.WriteLine("---------------------------------------------------");
-
-                    #region other web methods
-                    //// HTTP PUT
-                    //gizmo.Longitude = 280.5;   // Update price
-                    //response = await client.PutAsJsonAsync(gizmoUrl, gizmo);
-
-                    // HTTP DELETE
-                    //response = await client.DeleteAsync(gizmoUrl);
-                    #endregion
-                }
+              
 
                 response = await client.GetAsync("api/v7/bite");
                 if (response.IsSuccessStatusCode)

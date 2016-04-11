@@ -14,11 +14,6 @@ namespace MicroservicesTest2.Persistency
     {
         public DbSet<ZombieSighting> ZombieSightings { get; set; }
 
-        public ZombieContext()
-        {
-
-        }
-
         public class SQLiteConfiguration : DbConfiguration
         {
             public SQLiteConfiguration()
