@@ -19,7 +19,20 @@ public class Startup
 
         var builder = new ContainerBuilder();
         builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-        builder.RegisterType(typeof (PersistencyLayer)).SingleInstance();
+
+        builder.Register((IComponentContext ctx) =>
+        {
+            IPersistencyLayer persistencyLayer = new PersistencyLayer(ctx.Resolve<IZombiePersistency>());
+
+            ProxyGenerator generator = new ProxyGenerator();
+            IPersistencyLayer proxy = (IPersistencyLayer)generator.CreateInterfaceProxyWithTarget(
+                typeof(IPersistencyLayer),
+                persistencyLayer,
+                new MethodCallLogging(LogManager.GetLogger(typeof(PersistencyLayer))));
+
+            return proxy;
+        }).SingleInstance();
+
 
         builder.Register<IZombiePersistency>((IComponentContext ctx) =>
         {
@@ -33,8 +46,6 @@ public class Startup
 
             return proxy;
         }).SingleInstance();
-
-
 
         var container = builder.Build();
 

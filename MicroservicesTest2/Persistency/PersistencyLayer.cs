@@ -6,7 +6,14 @@ using MicroservicesTest2.Models;
 
 namespace MicroservicesTest2.Persistency
 {
-    public class PersistencyLayer 
+    public interface IPersistencyLayer
+    {
+        List<ZombieSighting> GetAllZombies();
+        ZombieSighting GetZombieById(string id);
+        void AddZombie(ZombieSighting zombie);
+    }
+
+    public class PersistencyLayer : IPersistencyLayer
     {
         private readonly IZombiePersistency _zombiePersistency;
         public PersistencyLayer(IZombiePersistency zombiePersistency)

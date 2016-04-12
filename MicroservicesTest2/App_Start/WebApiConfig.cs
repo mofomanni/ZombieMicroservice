@@ -6,6 +6,7 @@ using log4net;
 using log4net.Core;
 using MicroservicesTest2.Controllers;
 using MicroservicesTest2.Persistency;
+using MicroservicesTest2.Utils.Logging;
 
 namespace MicroservicesTest2
 {

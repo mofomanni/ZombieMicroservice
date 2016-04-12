@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-
 namespace MicroservicesTest2Client
 {
     public partial class ZombieSighting
     {
-        [JsonProperty(PropertyName = "ZombieId")]
+      
         public Guid ZombieId { get; set; }
 
-        [JsonProperty(PropertyName = "Name")]
+     
         public String Name { get; set; }
 
-        [JsonProperty(PropertyName = "Latitude")]
+      
         public Double Latitude { get; set; }
 
-        [JsonProperty(PropertyName = "Longitude")]
+     
         public Double Longitude { get; set; }
     }
 
@@ -28,7 +26,7 @@ namespace MicroservicesTest2Client
         {
             RunAsync().Wait();
 
-
+            Console.WriteLine("Finished");
             Console.Read();
         }
 
@@ -74,7 +72,13 @@ namespace MicroservicesTest2Client
                 }
 
 
-              
+                using (var client2 = new HttpClient())
+                {
+                    client2.BaseAddress = new Uri("http://localhost:56085/");
+                    var tmp = await client2.GetAsync("api/human/bite");
+                }
+                
+
 
                 response = await client.GetAsync("api/v7/bite");
                 if (response.IsSuccessStatusCode)

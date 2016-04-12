@@ -1,7 +1,6 @@
-using MicroservicesTest2.Models;
 using Newtonsoft.Json;
 
-namespace MicroservicesTest2.Utils.Logging
+namespace LoggingLib
 {
     public class ZombieLoggingInfo
     {
@@ -15,10 +14,7 @@ namespace MicroservicesTest2.Utils.Logging
 
         public string ExceptionDetails { get; set; }
 
-        public string ZombieItSelf
-        {
-            get { return base.ToString(); }
-        }
+        public string ZombieItSelf { get; set; }
 
         public override string ToString()
         {

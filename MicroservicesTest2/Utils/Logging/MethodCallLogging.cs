@@ -18,17 +18,30 @@ namespace MicroservicesTest2.Utils.Logging
 
         public override void Intercept(IInvocation invocation)
         {
-            //  Logger.Info(string.Format("::Executing Method '{0}.{1}'", invocation.TargetType.FullName, invocation.Method.Name));
+            ZombieLoggingInfo info = new ZombieLoggingInfo();
+            info.Class = invocation.TargetType.FullName;
+            info.MethodName = invocation.Method.Name + " <S>";
+            info.ZombieItSelf = GetZombieSightingFromArguments(invocation);
+
             var sw = Stopwatch.StartNew();
+            Logger.Debug(info);
+
             invocation.Proceed();
             sw.Stop();
-            //    Logger.Debug(string.Format("::Executed Method '{0}.{1}' ({2:0.000}ms)", invocation.TargetType.FullName, invocation.Method.Name, sw.Elapsed.TotalMilliseconds));
-
-            ZombieLoggingInfo info =  new ZombieLoggingInfo();;
-            info.Class = invocation.TargetType.FullName;
-            info.MethodName = invocation.Method.Name;
+            info.MethodName = invocation.Method.Name + " <F>";
             info.Duration = sw.Elapsed.Milliseconds;
+            
             Logger.Debug(info);
+        }
+
+        public string GetZombieSightingFromArguments(IInvocation invocation)
+        {
+            if (invocation.Arguments != null)
+            {
+                return (from arg in invocation.Arguments where arg != null && arg.GetType() == typeof (ZombieSighting) select ((ZombieSighting) arg).ToString()).FirstOrDefault();
+            }
+
+            return "";
         }
     }
 }

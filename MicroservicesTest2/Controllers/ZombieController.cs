@@ -16,11 +16,12 @@ namespace MicroservicesTest2.Controllers
 {
     public class ZombieController : ApiController
     {
-        private readonly PersistencyLayer _persistencyLayer;
+        private readonly IPersistencyLayer _persistencyLayer;
 
-        public ZombieController(PersistencyLayer persistencyLayer)
+        public ZombieController(IPersistencyLayer persistencyLayer)
         {
             _persistencyLayer = persistencyLayer;   
+            
         }
 
         [Route("api/v7/zombies")] // override the standard route pattern

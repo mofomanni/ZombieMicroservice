@@ -1,28 +1,23 @@
-﻿using System;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 using MicroservicesTest_2_HumanService.Models;
+using MicroservicesTest_2_HumanService.Utils;
 
 namespace MicroservicesTest_2_HumanService.Controllers
 {
     public class HumanController : ApiController
     {
+        private readonly IZombieCreator _zombieCreator;
+
+        public HumanController(IZombieCreator zombieCreator)
+        {
+            _zombieCreator = zombieCreator;
+        }
+
         [Route("api/human/bite")] // override the standard route pattern
         [HttpGet]
         public ZombieSighting HumanGetsBitten()
         {
-
-            string correlationId = this.ControllerContext.Request.Headers.GetValues("BGT-CorrelationId").FirstOrDefault();
-
-            Guid g = Guid.NewGuid();
-
-            return new ZombieSighting
-                {
-                    Latitude = new Random().NextDouble(),
-                    Longitude = new Random().NextDouble(),
-                    Name = "Human-Zombie_" + g,
-                    ZombieId = g
-                };
+            return _zombieCreator.AwakeNewZombie();
         }
     }
 }

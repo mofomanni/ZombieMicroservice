@@ -1,9 +1,8 @@
-using System;
 using System.IO;
 using log4net.Core;
 using log4net.Util;
 
-namespace MicroservicesTest2.Utils.Logging
+namespace LoggingLib
 {
     public class ActionConverter : PatternConverter
     {
@@ -11,7 +10,7 @@ namespace MicroservicesTest2.Utils.Logging
         {
             var loggingEvent = state as LoggingEvent;
 
-            if (loggingEvent == null || !(loggingEvent.MessageObject is LoggingEvent))
+            if (loggingEvent == null || !(loggingEvent.MessageObject is ZombieLoggingInfo))
             {
                 HandleDefault(writer);
                 return;
@@ -30,9 +29,6 @@ namespace MicroservicesTest2.Utils.Logging
                 case "methodname":
                     writer.Write(zombieLoggingInfo.MethodName);
                     break;
-                //case "zombieId":
-                //    writer.Write(zombieLoggingInfo.ZombieId);
-                //    break;
                 case "exceptiondetails":
                     writer.Write(zombieLoggingInfo.ExceptionDetails);
                     break;

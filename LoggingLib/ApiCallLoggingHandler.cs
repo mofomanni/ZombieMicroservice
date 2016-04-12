@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -6,13 +7,14 @@ using System.Threading.Tasks;
 using Castle.Core.Logging;
 using log4net;
 using log4net.Core;
+using LoggingLib;
 
 namespace MicroservicesTest2
 {
     public class ApiCallLoggingHandler<T>:  DelegatingHandler
     {
-        private readonly ILog _logger;
-        private readonly Level _logLevel;
+        protected readonly ILog _logger;
+        protected readonly Level _logLevel;
 
         public ApiCallLoggingHandler(ILog logger, Level logLevel)
         {
@@ -29,26 +31,28 @@ namespace MicroservicesTest2
             }
             else if (!request.Properties.ContainsKey("BGT-CorrelationId"))
             {
-                correlationId= Guid.NewGuid().ToString();
+                correlationId = Guid.NewGuid().ToString();
             }
 
             request.Properties["BGT-CorrelationId"] = correlationId;
             log4net.LogicalThreadContext.Properties["BGT-CorrelationId"] = correlationId;
 
-            DateTime start = DateTime.Now;
+            Stopwatch duration = Stopwatch.StartNew();
 
-            _logger.Logger.Log(typeof(T), _logLevel, CreateStringFromRequest(request) + "Start [" + DateTime.Now + "]", null);
+            ZombieLoggingInfo info = new ZombieLoggingInfo();
+            info.Uri = request.RequestUri.AbsoluteUri + " <S>";
 
-            var ret= base.SendAsync(request, cancellationToken);
-            var duration = DateTime.Now - start;
-            _logger.Logger.Log(typeof(T), _logLevel, CreateStringFromRequest(request) + "End [" + DateTime.Now + "] call took [" + duration.Milliseconds + "]ms",null);
+            _logger.Debug(info);
 
-            return ret;
-        }
-
-        private string CreateStringFromRequest(HttpRequestMessage request)
-        {
-            string ret = "BGT-CorrelationId[" + request.Properties["BGT-CorrelationId"] + "]";
+            var ret = base.SendAsync(request, cancellationToken);
+            
+            ret.ContinueWith(response =>
+            {
+                duration.Stop();
+                info.Duration = (int)duration.ElapsedMilliseconds;
+                info.Uri = request.RequestUri.AbsoluteUri + " <F>";
+                _logger.Debug(info);
+            }, cancellationToken);
 
             return ret;
         }
